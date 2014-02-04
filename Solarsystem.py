@@ -1,22 +1,31 @@
-import Planet
+import numpy as np
+from Planet import Planet
 
 class Solarsystem:
 	def __init__(self):
+		solarmass = 1.98855e30
 		self.planets = []
+		self.sun = Planet(solarmass,np.zeros(2),np.zeros(2))
+		self.t0 = self.t1 = 0
+		self.G = 1.984e-29
+		self.Gsm = self.G*self.sun.m
 
+	def SetParams(self,dt):
+		self.dt = dt
 	def AddPlanet(self,mass,pos,vel):
 		self.planets.append(Planet(mass,pos,vel))
 
 	def Simulate(self):
 		for planet in self.planets:
-			planet.v = self.ODESolver(t0,dt,planet.v,self.FG)
-			planet.r = self.ODESolver(t0,dt,planet.r,self.x)
+			self.t0,planet.v = self.ODESolver(self.t0,self.dt,planet.v,self.FG)
+			self.t1,planet.r = self.ODESolver(self.t1,self.dt,planet.r,self.x)
 
 	def FG(self,t,y):
-		pass
+		a = self.Gsm*y/(np.dot(y,y)*np.sqrt(np.dot(y,y)))
+		return a
 
 	def x(self,t,y):
-		pass
+		return y
 
 	def ODESolver(self,t0,dt,y0,f):
 		"RK4"
