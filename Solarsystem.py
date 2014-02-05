@@ -17,8 +17,8 @@ class Solarsystem:
 
 	def Simulate(self):
 		for planet in self.planets:
-			self.t0,planet.v = self.ODESolver(self.t0,self.dt,planet.v,self.FG)
-			self.t1,planet.r = self.ODESolver(self.t1,self.dt,planet.r,self.x)
+			self.t0,planet.v = self.ODESolver(self.t0,self.dt,planet.r,self.FG)
+			self.t1,planet.r = self.ODESolver(self.t1,self.dt,planet.v,self.x)
 
 	def FG(self,t,y):
 		a = self.Gsm*y/(np.dot(y,y)*np.sqrt(np.dot(y,y)))

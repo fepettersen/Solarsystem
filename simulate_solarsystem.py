@@ -1,5 +1,6 @@
-import numpy as np
+import numpy as np, matplotlib.pyplot as mpl
 from Solarsystem import Solarsystem
+import matplotlib.animation as animation
 
 solarsystem = Solarsystem()
 '''
@@ -49,6 +50,16 @@ solarsystem.SetParams(dt)
 # 		break
 # 	solarsystem.Simulate()
 # 	update_plot()
-T = 1000
+im = []
+fig = mpl.figure()
+mpl.ion()
+T = 10
 for i in xrange(T):
 	solarsystem.Simulate()
+	print "-----------------------"
+	im.append(mpl.plot(solarsystem.planets[2].r[0],solarsystem.planets[2].r[1]))
+	# for body in solarsystem.planets:
+	# mpl.draw()
+
+ani = animation.ArtistAnimation(fig,im)
+mpl.show()
